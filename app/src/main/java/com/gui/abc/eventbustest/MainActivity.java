@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //注册EventBus
         EventBus.getDefault().register(this);
     }
 
@@ -28,12 +29,14 @@ public class MainActivity extends AppCompatActivity {
         EventBus.getDefault().unregister(this);
     }
 
+    //接收事件
     @Subscribe
-    public void onEventMainThread(SecondData secondData){
-        Toast.makeText(this, secondData.getContent(), Toast.LENGTH_SHORT).show();
+    public void onEventMainThread(MyEvent MyEvent){
+        Toast.makeText(this, MyEvent.getContent(), Toast.LENGTH_SHORT).show();
     }
 
     public void passSelf(View view){
-        EventBus.getDefault().post(new SecondData("传递给当前线程"));
+        //取消注册
+        EventBus.getDefault().post(new MyEvent("传递给当前线程"));
     }
 }
